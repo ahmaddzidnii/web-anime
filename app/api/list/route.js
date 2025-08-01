@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
@@ -19,7 +19,7 @@ export async function POST(request) {
 
   const { user_id } = user;
 
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId || !user_id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -139,7 +139,7 @@ export async function DELETE(request) {
   const body = await request.json();
 
   const { user_id, id } = body;
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId || !user_id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -170,7 +170,7 @@ export async function DELETE(request) {
 }
 
 export async function PUT(request) {
-  const { userId } = auth();
+  const { userId } = await auth();
   const { user, data } = await request.json();
 
   const { user_id, id } = user;

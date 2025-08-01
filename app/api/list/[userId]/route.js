@@ -1,11 +1,11 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { Base64 } from "js-base64";
 
 export async function GET(request, context) {
-  const { userId } = auth();
+  const { userId } = await auth();
   const user_id = context.params.userId;
 
   const { searchParams } = new URL(request.url);
