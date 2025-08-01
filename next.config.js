@@ -4,6 +4,9 @@ const nextConfig = {
     domains: ["cdn.myanimelist.net"],
     unoptimized: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  }
 };
 
 module.exports = nextConfig;

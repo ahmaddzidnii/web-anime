@@ -1,6 +1,6 @@
 "use client";
 
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar"
 
 export const ProgressBarProvider = ({ children }) => {
   return (

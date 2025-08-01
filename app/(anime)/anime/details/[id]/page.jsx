@@ -1,5 +1,4 @@
 import { GiPeriscope } from "react-icons/gi";
-import { Base64 } from "js-base64";
 
 import { getDetailAnimeById } from "@/services/anime.service";
 
@@ -17,7 +16,7 @@ export async function generateMetadata({ params }) {
   };
 }
 const Page = async ({ params }) => {
-  const detailsAnime = await getDetailAnimeById(params.id);
+  const detailsAnime = await getDetailAnimeById(await params.id);
 
   if (!detailsAnime) {
     return (
@@ -32,11 +31,8 @@ const Page = async ({ params }) => {
     );
   }
 
-  /** Encode Response Data JSON API to Base64 @returns {string} */
-  const encoded = Base64.encode(JSON.stringify(detailsAnime, true));
 
-  const api = JSON.parse(Base64.decode(encoded));
-
+  const api = detailsAnime
   return (
     <main className="min-h-screen pt-5">
       <main className="space-y-5 p-1">
@@ -127,7 +123,7 @@ const Page = async ({ params }) => {
           </div>
 
           <div className=" h-auto w-full">
-            <DetailComponent apiBase64={encoded} />
+            <DetailComponent detailData={api} />
           </div>
         </div>
       </main>

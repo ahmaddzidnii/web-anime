@@ -12,6 +12,59 @@ export const getLabelStatusByValue = (value) => {
   return selectedOption ? selectedOption.label : "ALL";
 };
 
+export async function GET(request) {
+  const { userId } = await auth();
+
+  const { searchParams } = new URL(request.url);
+  const status = searchParams.get("status");
+  const orderBy = searchParams.get("orderBy");
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        user_id: userId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const whereCondition = {
+      user: {
+        id: user.id,
+      },
+      ...(status && status !== "ALL" ? { status: status } : {}),
+    };
+
+    const orderCondition = {
+      ...(orderBy !== "score" ? { updated_at: "desc" } : { score: "desc" }),
+    };
+
+    const lists = await prisma.animeList.findMany({
+      where: whereCondition,
+      orderBy: orderCondition,
+    });
+
+    return Response.json({
+      lists,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "Failed to fetch lists" },
+      { status: 500 },
+    );
+  }
+}
+
 export async function POST(request) {
   const body = await request.json();
 

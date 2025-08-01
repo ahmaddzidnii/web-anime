@@ -1,11 +1,10 @@
 import { Suspense } from "react";
-import { Base64 } from "js-base64";
 
 import { CharactersComponent } from "./characther-component";
 import { Loader } from "@/components/loader";
 
-export const DetailComponent = ({ apiBase64 }) => {
-  const api = JSON.parse(Base64.decode(apiBase64));
+export const DetailComponent = ({ detailData }) => {
+  const api = detailData;
   return (
     <>
       <div className="w-full rounded-lg bg-slate-300 py-5">

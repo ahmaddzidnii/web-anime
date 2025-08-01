@@ -12,7 +12,7 @@ export const useFetchList = (filters) => {
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
 
-      const response = await axios.get(`/api/list/${userId}?${queryString}`, {
+      const response = await axios.get(`/api/list?${queryString}`, {
         headers: { Authorization: `Bearer ${await getToken()}` },
       });
       return response.data;

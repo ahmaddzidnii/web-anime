@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Base64 } from "js-base64";
 import { Bars } from "react-loader-spinner";
 import { FaStar } from "react-icons/fa";
 import { GiPeriscope } from "react-icons/gi";
@@ -59,7 +58,7 @@ export const ListAnime = () => {
 
       {data && (
         <>
-          {JSON.parse(Base64.decode(data.lists))?.length == 0 && (
+          {data.lists?.length == 0 && (
             <div className="flex h-[60vh] items-center justify-center gap-x-3">
               <GiPeriscope className="h-10 w-10 sm:h-20 sm:w-20" />
               <h1 className="text-center text-lg font-bold sm:text-xl">
@@ -68,7 +67,7 @@ export const ListAnime = () => {
             </div>
           )}
           <div className="h-full">
-            {JSON.parse(Base64.decode(data.lists))?.map((item) => {
+            {data.lists?.map((item) => {
               const progress = Math.ceil(
                 (item.watched_episode / item.total_episode) * 100,
               );
