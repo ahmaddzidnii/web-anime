@@ -9,14 +9,16 @@ import { Separator } from "@/components/ui/separator";
 import { YtIframe } from "@/components/iframe/yt";
 
 export async function generateMetadata({ params }) {
-  const detailsAnime = await getDetailAnimeById(params.id);
+  const {id} = await params
+  const detailsAnime = await getDetailAnimeById(id);
   return {
     title: detailsAnime ? `${detailsAnime?.title_english}` : "Tidak Ditemukan",
     description: detailsAnime ? `${detailsAnime?.synopsis}` : "Tidak Ditemukan",
   };
 }
 const Page = async ({ params }) => {
-  const detailsAnime = await getDetailAnimeById(await params.id);
+  const {id} = await params
+  const detailsAnime = await getDetailAnimeById(id);
 
   if (!detailsAnime) {
     return (

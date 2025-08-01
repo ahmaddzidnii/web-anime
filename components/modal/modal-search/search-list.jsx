@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next-nprogress-bar";
+import { useRouter } from "@bprogress/next";
 import { useQuery } from "@tanstack/react-query";
 import { SearchCheck } from "lucide-react";
 import { MdFormatListBulletedAdd } from "react-icons/md";
