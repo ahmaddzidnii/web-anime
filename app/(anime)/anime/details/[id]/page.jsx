@@ -1,136 +1,207 @@
-import { GiPeriscope } from "react-icons/gi";
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Star, Calendar, Clock, Users, Trophy, Play } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
+import { tryCatch } from "@/utils/catchexception";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getDetailAnimeById } from "@/services/anime.service";
+import { AddListDetailPage } from "@/components/list/add-list";
 
-import { DetailComponent } from "./_components/detail-component";
-import { AddList } from "@/components/list/add-list";
-import { TitlesSection } from "./_components/titles-section";
-import { Separator } from "@/components/ui/separator";
-import { YtIframe } from "@/components/iframe/yt";
+export const metadata = {
+  title: "Detail anime",
+};
 
-export async function generateMetadata({ params }) {
-  const {id} = await params
-  const detailsAnime = await getDetailAnimeById(id);
-  return {
-    title: detailsAnime ? `${detailsAnime?.title_english}` : "Tidak Ditemukan",
-    description: detailsAnime ? `${detailsAnime?.synopsis}` : "Tidak Ditemukan",
-  };
-}
-const Page = async ({ params }) => {
-  const {id} = await params
-  const detailsAnime = await getDetailAnimeById(id);
+const AnimeIdPage = async ({ params }) => {
+  const { id } = await params;
+  const [animeData, err] = await tryCatch(getDetailAnimeById(id));
 
-  if (!detailsAnime) {
+  if (err) {
+    console.log(err);
+    throw err;
+  }
+
+  if (!animeData) {
     return (
-      <div className="pt-5">
-        <div className=" flex min-h-screen items-center justify-center gap-5">
-          <GiPeriscope className="text-4xl" />
-          <h1 className="mb-5 text-xl font-bold tracking-wide sm:text-2xl  md:text-3xl lg:text-4xl">
-            Tidak ada hasil untuk id ini.
-          </h1>
-        </div>
+      <div className="flex min-h-screen items-center justify-center">
+        <Skeleton className="h-10 w-64" />
       </div>
     );
   }
 
-
-  const api = detailsAnime
   return (
-    <main className="min-h-screen pt-5">
-      <main className="space-y-5 p-1">
-        <h1
-          className=" text-lg font-bold lg:text-xl xl:text-2xl"
-          title={api?.title}
-        >
-          {api?.title}
-          <span className="italic" title={api?.title_japanese}>
-            &#40;{api?.title_japanese}&#41;
-          </span>
-        </h1>
-        <div className="flex flex-col justify-center gap-5 md:flex-row">
-          <div className="shrink-0 md:w-[300px]">
-            <img
-              src={api?.images.jpg.large_image_url}
-              className="w-full rounded-sm shadow-xl md:h-[400px]"
-              alt={api?.title}
-              title={api?.title}
-            />
-            <div className="mt-5">
-              <AddList withText={true} data={api?.mal_id} />
-            </div>
+    <div className="relative z-20 flex flex-col gap-8 md:flex-row">
+      {/* Poster */}
+      <div className="relative mb-6 h-[650px] w-full flex-shrink-0 md:mb-0 md:h-[450px] md:w-[300px]">
+        <Image
+          src={animeData.images.jpg.large_image_url || "/placeholder.svg"}
+          alt={animeData.title}
+          fill
+          className="mx-auto w-full rounded-lg object-cover shadow-2xl lg:mx-0"
+        />
+      </div>
 
-            {/* Trailer section */}
-            <div className="mt-5">
-              {api?.trailer.youtube_id && (
-                <YtIframe
-                  id={api?.trailer.youtube_id}
-                  title={api?.title_japanese}
-                />
-              )}
-            </div>
-            {/* Trailer section */}
+      <div className="flex-1 space-y-6">
+        <div>
+          <h1 className="mb-2 text-4xl font-bold lg:text-6xl">
+            {animeData.title_english || animeData.title}
+          </h1>
+          <h2 className="mb-1 text-xl text-gray-800 dark:text-gray-300 lg:text-2xl">
+            {animeData.title}
+          </h2>
+          <p className="text-lg text-gray-800 dark:text-gray-400">
+            {animeData.title_japanese}
+          </p>
+        </div>
 
-            <div className="mt-5">
-              <TitlesSection titles={api?.titles} />
-            </div>
-
-            {/* Information section */}
-            <div className="mt-5">
-              <div className=" w-full rounded-lg bg-slate-300 p-5">
-                <h1 className="text-lg   font-bold text-slate-800">
-                  Information
-                </h1>
-                <Separator />
-                <div className="my-2">
-                  <p className="text-sm text-slate-900">
-                    <span className="font-semibold">Type</span> :
-                    <span className="text-slate-600">{api?.type}</span>
-                  </p>
-                  <p className="text-sm text-slate-900">
-                    <span className="font-semibold">Genres</span> :
-                    <span className="text-slate-600">
-                      {api?.genres.map((g) => g.name).join(", ")}
-                    </span>
-                  </p>
-                  <p className="text-sm text-slate-900">
-                    <span className="font-semibold">Episodes</span> :
-                    <span className="text-slate-600">{api?.episodes}</span>
-                  </p>
-                  <p className="text-sm text-slate-900">
-                    <span className="font-semibold">Duration</span> :
-                    <span className="text-slate-600">{api?.duration}</span>
-                  </p>
-                  <p className="text-sm text-slate-900">
-                    <span className="font-semibold">Status</span> :
-                    <span className="text-slate-600">{api?.status}</span>
-                  </p>
-                  <p className="text-sm text-slate-900">
-                    <span className="font-semibold">Aired</span> :
-                    <span className="text-slate-600">{api?.aired.string}</span>
-                  </p>
-                  <p className="text-sm text-slate-900">
-                    <span className="font-semibold">Producers</span> :
-                    <span className="text-slate-600">
-                      {api?.producers.map((p) => p.name).join(", ")}
-                    </span>
-                  </p>
-                  <p className="text-sm text-slate-900">
-                    <span className="font-semibold">Rating</span> :
-                    <span className="text-slate-600">{api?.rating}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* Information section */}
+        {/* Score and Rank */}
+        <div className="flex flex-wrap items-center gap-6">
+          <div className="flex items-center gap-2">
+            <Star className="h-6 w-6 fill-current text-yellow-400" />
+            <span className="text-2xl font-bold text-yellow-400">
+              {animeData.score}
+            </span>
+            <span className="text-gray-800 dark:text-gray-400">
+              ({animeData.scored_by.toLocaleString()} votes)
+            </span>
           </div>
-
-          <div className=" h-auto w-full">
-            <DetailComponent detailData={api} />
+          <div className="flex items-center gap-2">
+            <Trophy className="h-5 w-5 text-orange-400" />
+            <span className="font-semibold text-orange-400">
+              Rank #{animeData.rank}
+            </span>
           </div>
         </div>
-      </main>
-    </main>
+
+        {/* Genres */}
+        <div className="flex flex-wrap gap-2">
+          {animeData.genres.map((genre, index) => (
+            <Badge
+              key={index}
+              variant="secondary"
+              className="bg-red-600 text-white hover:bg-red-700"
+            >
+              {genre.name}
+            </Badge>
+          ))}
+          {animeData.demographics.map((demo, index) => (
+            <Badge key={index} variant="outline" className="border-gray-600">
+              {demo.name}
+            </Badge>
+          ))}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-4">
+          <Link target="_blank" href={animeData.trailer.url}>
+            <button className="flex items-center gap-2 rounded bg-gray-100 px-8 py-3 font-semibold text-black transition-colors hover:bg-gray-200 dark:bg-white">
+              <Play className="h-5 w-5" />
+              Watch Trailer
+            </button>
+          </Link>
+          <AddListDetailPage />
+        </div>
+
+        {/* General Information - Integrated */}
+        <div className="max-w-6xl">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+              <div className="mb-2 flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-blue-400" />
+                <span className="text-sm font-medium text-gray-100 dark:text-gray-300">
+                  Aired
+                </span>
+              </div>
+              <p className="text-sm font-semibold text-white">
+                {animeData.aired.string}
+              </p>
+              <p className="mt-1 text-xs capitalize text-blue-400">
+                {animeData.season} {animeData.year}
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+              <div className="mb-2 flex items-center gap-2">
+                <Clock className="h-4 w-4 text-green-400" />
+                <span className="text-sm font-medium text-gray-100 dark:text-gray-300">
+                  Episodes
+                </span>
+              </div>
+              <p className="text-sm font-semibold text-white">
+                {animeData.episodes} eps
+              </p>
+              <p className="mt-1 text-xs text-green-400">
+                {animeData.duration}
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+              <div className="mb-2 flex items-center gap-2">
+                <Users className="h-4 w-4 text-purple-400" />
+                <span className="text-sm font-medium text-gray-100 dark:text-gray-300">
+                  Popularity
+                </span>
+              </div>
+              <p className="text-sm font-semibold text-white">
+                #{animeData.popularity}
+              </p>
+              <p className="mt-1 text-xs text-purple-400">
+                {(animeData.members / 1000000).toFixed(1)}M members
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+              <div className="mb-2 flex items-center gap-2">
+                <Star className="h-4 w-4 text-orange-400" />
+                <span className="text-sm font-medium text-gray-100 dark:text-gray-300">
+                  Type
+                </span>
+              </div>
+              <p className="text-sm font-semibold text-white">
+                {animeData.type}
+              </p>
+              <p className="mt-1 text-xs text-orange-400">{animeData.source}</p>
+            </div>
+
+            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+              <div className="mb-2 flex items-center gap-2">
+                <Trophy className="h-4 w-4 text-red-400" />
+                <span className="text-sm font-medium text-gray-300">
+                  Studio
+                </span>
+              </div>
+              <p className="text-sm font-semibold text-white">
+                {animeData.studios.map((studio) => studio.name).join(", ")}
+              </p>
+              <p className="mt-1 text-xs text-red-400">Animation</p>
+            </div>
+
+            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+              <div className="mb-2 flex items-center gap-2">
+                <Users className="h-4 w-4 text-cyan-400" />
+                <span className="text-sm font-medium text-gray-300">
+                  Status
+                </span>
+              </div>
+              <p className="text-sm font-semibold text-white">
+                {animeData.status}
+              </p>
+              <p className="mt-1 text-xs text-cyan-400">{animeData.rating}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Synopsis */}
+        <div>
+          <h3 className="mb-3 text-xl font-semibold">Synopsis</h3>
+          <p className="mb-8  leading-relaxed text-gray-800 dark:text-gray-300">
+            {animeData.synopsis.replace(/\[Written by MAL Rewrite\]/, " ")}
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default Page;
+export default AnimeIdPage;

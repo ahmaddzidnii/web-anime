@@ -103,14 +103,7 @@ export const fetchSearchAnime = async (query) => {
  */
 
 export const getDetailAnimeById = async (id) => {
-  try {
-    const response = await axiosInstance.get(`/anime/${id}/full`);
-    const data = response.data.data;
-    return data;
-  } catch (error) {
-    const errorCode = error.response.status;
-    if (errorCode === 404) {
-      return null;
-    }
-  }
+  const response = await axiosInstance.get(`/anime/${id}/full`);
+  const data = response.data.data;
+  return data;
 };

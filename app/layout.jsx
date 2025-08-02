@@ -35,22 +35,22 @@ export default function RootLayout({ children }) {
       <body className={poppins.className} suppressHydrationWarning={true}>
         <ProgressBarProvider>
           <Suspense fallback={<></>}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="theme"
-          >
-            <ClerkCustomProvider>
-              <TanstackProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="theme"
+            >
+              <ClerkCustomProvider>
+                <TanstackProvider>
                   <ModalProvider />
                   <Toaster />
                   {children}
-              </TanstackProvider>
-            </ClerkCustomProvider>
-          </ThemeProvider>
-        </Suspense>
+                </TanstackProvider>
+              </ClerkCustomProvider>
+            </ThemeProvider>
+          </Suspense>
         </ProgressBarProvider>
       </body>
     </html>

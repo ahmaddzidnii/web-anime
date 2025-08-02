@@ -1,7 +1,15 @@
+"use client";
 import { FaList } from "react-icons/fa";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 
 export const IconListAnime = () => {
+  const auth = useAuth();
+
+  if (!auth.isSignedIn) {
+    return null;
+  }
+
   return (
     <nav>
       <Link aria-label="List" href="/list" className="relative">

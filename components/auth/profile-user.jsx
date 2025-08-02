@@ -28,7 +28,7 @@ export const ProfileUser = () => {
             appearance={{
               elements: {
                 userButtonAvatarBox: "h-[1.5rem] w-[1.5rem] md:w-7 md:h-7",
-                userButtonPopoverActionButton:"text-white"
+                userButtonPopoverActionButton: "text-white",
               },
             }}
           />

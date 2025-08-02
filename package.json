@@ -1,7 +1,7 @@
 {
   "name": "website-anime",
   "version": "2.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -49,14 +49,16 @@
     "tailwind-scrollbar": "^3.0.5",
     "tailwindcss-animate": "^1.0.7",
     "use-debounce": "^10.0.0",
+    "usehooks-ts": "^3.1.1",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "18.2.79",
     "autoprefixer": "^10",
-    "eslint": "^8",
+    "eslint": "^9.32",
     "eslint-config-next": "^15.4.5",
     "postcss": "^8",
+    "prettier": "3.6.2",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "prisma": "^6.13.0",
     "tailwindcss": "^3"
