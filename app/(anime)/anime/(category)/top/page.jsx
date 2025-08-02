@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 const TopAnimePage = async ({ searchParams }) => {
-  let { page } = searchParams;
+  let { page } = await searchParams;
   if (parseInt(page) < 1 || isNaN(page) || !page) {
     page = 1;
   }

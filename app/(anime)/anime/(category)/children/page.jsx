@@ -8,7 +8,7 @@ export const metadata = {
   title: "Anime for Children",
 };
 const AnimeChildrenPage = async ({ searchParams }) => {
-  let { page } = searchParams;
+  let { page } = await searchParams;
   if (parseInt(page) < 1 || isNaN(page) || !page) {
     page = 1;
   }

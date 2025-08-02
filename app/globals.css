@@ -20,15 +20,16 @@ input[type="number"] {
   padding-right: 1rem;
   padding-left: 1rem;
 }
+
 @media (min-width: 1400px) {
   .container-custom {
     max-width: 1400px;
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .container-custom {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
   }
 }
 

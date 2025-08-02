@@ -8,6 +8,7 @@ import { tryCatch } from "@/utils/catchexception";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getDetailAnimeById } from "@/services/anime.service";
 import { AddListDetailPage } from "@/components/list/add-list";
+import { Synopsis } from "./_components/synopsis";
 
 export const metadata = {
   title: "Detail anime",
@@ -33,7 +34,7 @@ const AnimeIdPage = async ({ params }) => {
   return (
     <div className="relative z-20 flex flex-col gap-8 md:flex-row">
       {/* Poster */}
-      <div className="relative mb-6 h-[650px] w-full flex-shrink-0 md:mb-0 md:h-[450px] md:w-[300px]">
+      <div className="fixed top-[72px] mb-6 h-[500px] w-full flex-shrink-0 md:relative md:top-0 md:mb-0 md:h-[450px] md:w-[300px]">
         <Image
           src={animeData.images.jpg.large_image_url || "/placeholder.svg"}
           alt={animeData.title}
@@ -42,7 +43,7 @@ const AnimeIdPage = async ({ params }) => {
         />
       </div>
 
-      <div className="flex-1 space-y-6">
+      <div className="z-[100] mt-96 min-h-screen flex-1 space-y-6 rounded-xl bg-background px-4 py-8 md:mt-0 md:py-0">
         <div>
           <h1 className="mb-2 text-4xl font-bold lg:text-6xl">
             {animeData.title_english || animeData.title}
@@ -94,19 +95,21 @@ const AnimeIdPage = async ({ params }) => {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-4">
-          <Link target="_blank" href={animeData.trailer.url}>
-            <button className="flex items-center gap-2 rounded bg-gray-100 px-8 py-3 font-semibold text-black transition-colors hover:bg-gray-200 dark:bg-white">
-              <Play className="h-5 w-5" />
-              Watch Trailer
-            </button>
-          </Link>
+          {animeData.trailer?.url && (
+            <Link target="_blank" href={animeData.trailer.url}>
+              <button className="flex items-center gap-2 rounded bg-gray-100 px-8 py-3 font-semibold text-black transition-colors hover:bg-gray-200 dark:bg-white">
+                <Play className="h-5 w-5" />
+                Watch Trailer
+              </button>
+            </Link>
+          )}
           <AddListDetailPage />
         </div>
 
         {/* General Information - Integrated */}
         <div className="max-w-6xl">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
+            <div className="rounded-lg border border-gray-800 bg-gray-700 p-4 backdrop-blur-sm dark:bg-gray-900/50">
               <div className="mb-2 flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-blue-400" />
                 <span className="text-sm font-medium text-gray-100 dark:text-gray-300">
@@ -121,7 +124,7 @@ const AnimeIdPage = async ({ params }) => {
               </p>
             </div>
 
-            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+            <div className="rounded-lg border border-gray-800 bg-gray-700 p-4 backdrop-blur-sm dark:bg-gray-900/50">
               <div className="mb-2 flex items-center gap-2">
                 <Clock className="h-4 w-4 text-green-400" />
                 <span className="text-sm font-medium text-gray-100 dark:text-gray-300">
@@ -136,7 +139,7 @@ const AnimeIdPage = async ({ params }) => {
               </p>
             </div>
 
-            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+            <div className="rounded-lg border border-gray-800 bg-gray-700 p-4 backdrop-blur-sm dark:bg-gray-900/50">
               <div className="mb-2 flex items-center gap-2">
                 <Users className="h-4 w-4 text-purple-400" />
                 <span className="text-sm font-medium text-gray-100 dark:text-gray-300">
@@ -151,7 +154,7 @@ const AnimeIdPage = async ({ params }) => {
               </p>
             </div>
 
-            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+            <div className="rounded-lg border border-gray-800 bg-gray-700 p-4 backdrop-blur-sm dark:bg-gray-900/50">
               <div className="mb-2 flex items-center gap-2">
                 <Star className="h-4 w-4 text-orange-400" />
                 <span className="text-sm font-medium text-gray-100 dark:text-gray-300">
@@ -164,7 +167,7 @@ const AnimeIdPage = async ({ params }) => {
               <p className="mt-1 text-xs text-orange-400">{animeData.source}</p>
             </div>
 
-            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+            <div className="rounded-lg border border-gray-800 bg-gray-700 p-4 backdrop-blur-sm dark:bg-gray-900/50">
               <div className="mb-2 flex items-center gap-2">
                 <Trophy className="h-4 w-4 text-red-400" />
                 <span className="text-sm font-medium text-gray-300">
@@ -177,7 +180,7 @@ const AnimeIdPage = async ({ params }) => {
               <p className="mt-1 text-xs text-red-400">Animation</p>
             </div>
 
-            <div className="rounded-lg border border-gray-800 bg-gray-900 p-4 backdrop-blur-sm dark:bg-gray-900/50">
+            <div className="rounded-lg border border-gray-800 bg-gray-700 p-4 backdrop-blur-sm dark:bg-gray-900/50">
               <div className="mb-2 flex items-center gap-2">
                 <Users className="h-4 w-4 text-cyan-400" />
                 <span className="text-sm font-medium text-gray-300">
@@ -195,9 +198,7 @@ const AnimeIdPage = async ({ params }) => {
         {/* Synopsis */}
         <div>
           <h3 className="mb-3 text-xl font-semibold">Synopsis</h3>
-          <p className="mb-8  leading-relaxed text-gray-800 dark:text-gray-300">
-            {animeData.synopsis.replace(/\[Written by MAL Rewrite\]/, " ")}
-          </p>
+          <Synopsis synopsis={animeData.synopsis} />
         </div>
       </div>
     </div>
