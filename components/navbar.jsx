@@ -13,35 +13,39 @@ export const Navbar = () => {
   return (
     <header className="max-w-screen sticky top-0 z-50 w-full border-b  bg-background  py-3.5 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:bg-[#1f1f1f] dark:supports-[backdrop-filter]:bg-[#1f1f1f]/60">
       <div className="mx-auto flex max-w-[1400px] items-center">
-        <Link href="/anime">
+        <Link href="/">
           <div className="flex items-center">
-            <Image
-              className="dark:hidden"
-              src="/logo.svg"
-              height="40"
-              width="40"
+            <Image src="/animefy.png" width={100} height={30} alt="logo" />
+            {/* <Image
+              // className="dark:hidden"
+              src="/logo-new.svg"
+              // height="40"
+              // width="40"
+              width={30}
+              height={30}
               alt="logo"
-            />
-            <Image
+            /> */}
+            {/* <Image
               className="hidden dark:block"
               src="/logo-dark.svg"
               height="40"
               width="40"
               alt="logo"
-            />
-            <p className={cn("hidden font-semibold sm:block")}>Animefy</p>
+            /> */}
+
+            {/* <p className={cn("hidden font-semibold sm:block")}>Animefy</p> */}
           </div>
         </Link>
         <div className="ml-4 flex flex-1 items-center justify-end gap-x-2 md:ml-0 md:gap-x-5">
           <nav className="flex items-center gap-x-2 md:gap-x-3">
             <ButtonModalSearch />
-            <Link
+            {/* <Link
               target="_blank"
               aria-label="github"
               href="https://github.com/ahmaddzidnii"
             >
               <FaGithub className="h-[1.2rem] w-[1.2rem] md:h-6 md:w-6" />
-            </Link>
+            </Link> */}
             <ModeToggle />
             <IconListAnime />
             <Suspense fallback={null}>

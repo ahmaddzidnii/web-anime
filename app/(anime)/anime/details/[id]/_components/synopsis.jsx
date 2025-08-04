@@ -93,6 +93,7 @@ export const Synopsis = ({ synopsis = "" }) => {
         {state.isTranslated ? state.translatedText : state.originalText}{" "}
         <button
           onClick={handleTranslate}
+          disabled={state.isLoading}
           title="Terjemahkan"
           className="ml-2 inline-flex items-center hover:text-blue-600"
         >
