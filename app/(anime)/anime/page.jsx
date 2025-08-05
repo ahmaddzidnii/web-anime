@@ -6,7 +6,7 @@ export const metadata = {
 
 const AnimePage = () => {
   return (
-    <div className="min-h-screen w-full px-2 pt-5 2xl:px-0">
+    <div className="min-h-screen w-full px-2  2xl:px-0">
       {/* <PopularAnime />
       <AnimeAnak /> */}
       <AnimeAll />
