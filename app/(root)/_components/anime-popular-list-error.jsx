@@ -1,8 +1,5 @@
 "use client";
 
-import { useRouter } from "@bprogress/next";
-import Link from "next/link";
-
 const parseErrorCode = (error) => {
   if (error instanceof Error) {
     switch (error.name) {
@@ -21,9 +18,8 @@ const parseErrorCode = (error) => {
   return "Unknown Error";
 };
 
-const AnimeDetailError = ({ error, reset: resetErrorBoundary }) => {
-  const router = useRouter();
-
+export const AnimePopularListError = ({ error, resetErrorBoundary }) => {
+  console.error(error.message);
   return (
     <div className=" w-full rounded-lg bg-[#1f1f1f] p-8 text-center shadow-lg sm:p-12">
       <div className="mb-6">
@@ -52,21 +48,12 @@ const AnimeDetailError = ({ error, reset: resetErrorBoundary }) => {
       </p>
 
       <div className="flex flex-col items-center space-y-4">
-        <div className="flex gap-5">
-          <button
-            onClick={resetErrorBoundary}
-            className="rounded-md bg-white px-8 py-3 font-bold text-black transition-colors duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#1f1f1f]"
-          >
-            Try Again
-          </button>
-
-          <button
-            onClick={() => router.back()}
-            className="rounded-md bg-white px-8 py-3 font-bold text-black transition-colors duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#1f1f1f]"
-          >
-            Back to Explore
-          </button>
-        </div>
+        <button
+          onClick={resetErrorBoundary}
+          className="rounded-md bg-white px-8 py-3 font-bold text-black transition-colors duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#1f1f1f]"
+        >
+          Try Again
+        </button>
         <span className="text-sm text-gray-500">
           Error Code: {parseErrorCode(error)}
         </span>
@@ -74,5 +61,3 @@ const AnimeDetailError = ({ error, reset: resetErrorBoundary }) => {
     </div>
   );
 };
-
-export default AnimeDetailError;

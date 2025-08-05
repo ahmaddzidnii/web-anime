@@ -9,6 +9,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getDetailAnimeById } from "@/services/anime.service";
 import { AddListDetailPage } from "@/components/list/add-list";
 import { Synopsis } from "./_components/synopsis";
+import { AppError } from "@/errors/errors";
+import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "Detail anime",
@@ -20,7 +22,15 @@ const AnimeIdPage = async ({ params }) => {
 
   if (err) {
     console.log(err);
-    throw err;
+    const statusCode = err?.response?.status || 500;
+
+    if (statusCode === 404) {
+      return notFound();
+    } else if (statusCode === 429) {
+      throw new AppError("ToManyRequestsError", "Server Too Busy");
+    } else if (statusCode === 500) {
+      throw new AppError("InternalServerError", "Internal Server Error");
+    }
   }
 
   if (!animeData) {
