@@ -1,11 +1,14 @@
 "use client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { parseBoolean } from "@/utils/common";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import React, { useRef, useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
-const HorizontalScrollCarousel = ({ animes }) => {
+const isPrefetchEnabled = parseBoolean(process.env.NEXT_PUBLIC_PREFETCH_LINK);
+
+export const HorizontalScrollCarousel = ({ animes }) => {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -72,7 +75,7 @@ const HorizontalScrollCarousel = ({ animes }) => {
       >
         {animes.map((anime, index) => (
           <Link
-            prefetch
+            prefetch={isPrefetchEnabled}
             key={anime?.mal_id}
             href={`/anime/details/${anime?.mal_id}`}
           >
@@ -144,5 +147,3 @@ const HorizontalScrollCarousel = ({ animes }) => {
     </div>
   );
 };
-
-export default HorizontalScrollCarousel;

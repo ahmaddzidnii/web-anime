@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ProfileUser } from "@/components/auth/profile-user";
 import { ButtonModalSearch } from "@/components/modal/modal-search/button-modal-search";
-import { IconListAnime } from "@/components/icon-list-anime";
 
 export const Navbar = () => {
   return (
@@ -20,7 +19,6 @@ export const Navbar = () => {
           <nav className="flex items-center gap-x-2 md:gap-x-3">
             <ButtonModalSearch />
             <ModeToggle />
-            <IconListAnime />
             <Suspense fallback={null}>
               <ProfileUser />
             </Suspense>

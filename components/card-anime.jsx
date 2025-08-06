@@ -6,6 +6,9 @@ import { BsBarChart } from "react-icons/bs";
 import { TextTruncate } from "./text-truncate";
 import { AddList } from "./list/add-list";
 import { Skeleton } from "./ui/skeleton";
+import { parseBoolean } from "@/utils/common";
+
+const isPrefetchEnabled = parseBoolean(process.env.NEXT_PUBLIC_PREFETCH_LINK);
 
 export const CardAnime = ({
   mal_id,
@@ -19,7 +22,7 @@ export const CardAnime = ({
   return (
     <article ref={refElement}>
       <div className="flex w-full flex-col gap-2 overflow-hidden rounded-b-lg rounded-t-lg border ">
-        <Link href={`/anime/details/${mal_id}`}>
+        <Link href={`/anime/details/${mal_id}`} prefetch={isPrefetchEnabled}>
           <div className="relative h-[400px] w-full ">
             <Skeleton className="absolute h-full w-full object-cover" />
             <Image

@@ -11,10 +11,13 @@ import { usePathname } from "next/navigation";
 import { AiOutlineLogin } from "react-icons/ai";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { FaList } from "react-icons/fa6";
+import { useRouter } from "@bprogress/next";
 
 export const ProfileUser = () => {
   const pathname = usePathname();
   const { isSignedIn } = useSession();
+  const router = useRouter();
 
   return (
     <>
@@ -28,10 +31,21 @@ export const ProfileUser = () => {
             appearance={{
               elements: {
                 userButtonAvatarBox: "h-[1.5rem] w-[1.5rem] md:w-7 md:h-7",
-                userButtonPopoverActionButton: "text-white",
+                userButtonPopoverActionButton:
+                  "dark:text-white hover:dark:text-white dark:hover:bg-slate-700/50",
+                userButtonPopoverCustomItemButton:
+                  "dark:text-white hover:dark:text-white dark:hover:bg-slate-700/50",
               },
             }}
-          />
+          >
+            <UserButton.MenuItems>
+              <UserButton.Action
+                label="Your Animelist"
+                labelIcon={<FaList />}
+                onClick={() => router.push("/lists")}
+              />
+            </UserButton.MenuItems>
+          </UserButton>
         ) : (
           <Link
             href={{

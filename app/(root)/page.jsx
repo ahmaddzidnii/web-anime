@@ -1,14 +1,15 @@
-import { Info, Play } from "lucide-react";
 import Link from "next/link";
-import HorizontalScrollCarousel from "./_components/HorizontalCarousel";
-import { Button } from "@/components/ui/button";
-import { getPopularAnime } from "@/data/anime";
-import { tryCatch } from "@/utils/catchexception";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { Skeleton } from "@/components/ui/skeleton";
-import { AnimePopularListError } from "./_components/anime-popular-list-error";
+import { Info, Play } from "lucide-react";
+
 import { AppError } from "@/errors/errors";
+import { Button } from "@/components/ui/button";
+import { getPopularAnime, getPopularAnimeForChildren } from "@/data/anime";
+import { tryCatch } from "@/utils/catchexception";
+import { Skeleton } from "@/components/ui/skeleton";
+import { HorizontalScrollCarousel } from "./_components/HorizontalCarousel";
+import { AnimePopularListError } from "./_components/anime-popular-list-error";
 
 export const metadata = {
   title: "Beranda",
@@ -22,6 +23,22 @@ const AnimePopularList = async () => {
   );
 
   if (err) {
+    console.error(err);
+    throw new AppError("InternalServerError", "Failed to fetch popular anime");
+  }
+
+  return <HorizontalScrollCarousel animes={animePopular} />;
+};
+
+const AnimePopularForChildrenList = async () => {
+  const [animePopular, err] = await tryCatch(
+    getPopularAnimeForChildren({
+      limit: 10,
+    }),
+  );
+
+  if (err) {
+    console.log(err);
     throw new AppError("InternalServerError", "Failed to fetch popular anime");
   }
 
@@ -54,6 +71,17 @@ export default function Home() {
           <Suspense fallback={<AnimePopularListSkeleton />}>
             <ErrorBoundary FallbackComponent={AnimePopularListError}>
               <AnimePopularList />
+            </ErrorBoundary>
+          </Suspense>
+        </div>
+      </section>
+
+      <section className="container mt-5 bg-background">
+        <h2 className="text-3xl font-bold">Anime Anak Populer</h2>
+        <div className="mt-5 ">
+          <Suspense fallback={<AnimePopularListSkeleton />}>
+            <ErrorBoundary FallbackComponent={AnimePopularListError}>
+              <AnimePopularForChildrenList />
             </ErrorBoundary>
           </Suspense>
         </div>
@@ -160,10 +188,13 @@ function NetflixHero() {
               <div className="flex items-center gap-4">
                 {/* Buttons */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-                  <button className="flex transform items-center justify-center gap-2 rounded-md bg-white px-3 py-1.5 text-sm font-semibold text-black transition-all duration-300 hover:scale-105 hover:bg-gray-200">
-                    <Play className="h-5 w-5 fill-current sm:h-6 sm:w-6" />
-                    Explore
-                  </button>
+                  <Link href="/anime">
+                    {" "}
+                    <button className="flex transform items-center justify-center gap-2 rounded-md bg-white px-3 py-1.5 text-sm font-semibold text-black transition-all duration-300 hover:scale-105 hover:bg-gray-200">
+                      <Play className="h-5 w-5 fill-current sm:h-6 sm:w-6" />
+                      Explore
+                    </button>
+                  </Link>
                 </div>
 
                 {/* Additional Info */}
@@ -202,10 +233,13 @@ function NetflixHero() {
 
                 {/* Buttons */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-                  <button className="flex transform items-center justify-center gap-2 rounded-md bg-white px-6 py-3 text-base font-semibold text-black transition-all duration-300 hover:scale-105 hover:bg-gray-200 sm:px-8 sm:py-4 sm:text-lg">
-                    <Play className="h-5 w-5 fill-current sm:h-6 sm:w-6" />
-                    Explore
-                  </button>
+                  <Link href="/anime">
+                    <button className="flex transform items-center justify-center gap-2 rounded-md bg-white px-6 py-3 text-base font-semibold text-black transition-all duration-300 hover:scale-105 hover:bg-gray-200 sm:px-8 sm:py-4 sm:text-lg">
+                      <Play className="h-5 w-5 fill-current sm:h-6 sm:w-6" />
+                      Explore
+                    </button>
+                  </Link>
+
                   <button className="flex items-center justify-center gap-2 rounded-md bg-gray-600/70 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-gray-600/90 sm:px-8 sm:py-4 sm:text-lg">
                     <Info className="h-5 w-5 sm:h-6 sm:w-6" />
                     More Info
