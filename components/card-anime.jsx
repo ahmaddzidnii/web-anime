@@ -36,7 +36,10 @@ export const CardAnime = ({
         </Link>
         <div className=" px-2 pb-2">
           <div className="w-full">
-            <Link href={`/anime/details/${mal_id}`}>
+            <Link
+              href={`/anime/details/${mal_id}`}
+              prefetch={isPrefetchEnabled}
+            >
               <div className="flex justify-between">
                 <TextTruncate
                   className="text-sm font-semibold"
