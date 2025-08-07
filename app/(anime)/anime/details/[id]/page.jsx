@@ -1,24 +1,40 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { Star, Calendar, Clock, Users, Trophy, Play } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { tryCatch } from "@/utils/catchexception";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getDetailAnimeById } from "@/services/anime.service";
 import { AddListDetailPage } from "@/components/list/add-list";
 import { Synopsis } from "./_components/synopsis";
 import { AppError } from "@/errors/errors";
-import { notFound } from "next/navigation";
+import { getAnimeById } from "@/data/anime";
 
-export const metadata = {
-  title: "Detail anime",
+export const generateMetadata = async ({ params }) => {
+  const { id } = await params;
+
+  let title = "Anime Details";
+
+  const [animeData, err] = await tryCatch(getAnimeById(id));
+
+  if (err) {
+    return;
+  }
+
+  if (animeData) {
+    title = animeData.title_english || animeData.title || "Anime Details";
+  }
+
+  return {
+    title,
+  };
 };
 
 const AnimeIdPage = async ({ params }) => {
   const { id } = await params;
-  const [animeData, err] = await tryCatch(getDetailAnimeById(id));
+  const [animeData, err] = await tryCatch(getAnimeById(id));
 
   if (err) {
     console.log(err);
@@ -45,6 +61,7 @@ const AnimeIdPage = async ({ params }) => {
     <div className="relative z-20 flex flex-col gap-8 md:flex-row">
       {/* Poster */}
       <div className="fixed top-[72px] mb-6 h-[500px] w-full flex-shrink-0 md:relative md:top-0 md:mb-0 md:h-[450px] md:w-[300px]">
+        <Skeleton className="absolute inset-0" />
         <Image
           src={animeData.images.jpg.large_image_url || "/placeholder.svg"}
           alt={animeData.title}

@@ -1,19 +1,10 @@
-import { axiosInstance } from "@/lib/axios/axiosInstance";
+import { getExploreAnime } from "@/data/anime";
 import { queryOptions } from "@tanstack/react-query";
 
 export const infiniteQueryAnimeExploreOptions = queryOptions({
   queryKey: ["anime_explore"],
   queryFn: async ({ pageParam }) => {
-    const response = await axiosInstance.get("/top/anime", {
-      params: {
-        page: pageParam,
-        limit: 20,
-        sfw: true,
-        filter: "bypopularity",
-      },
-    });
-
-    return response.data;
+    return await getExploreAnime(pageParam);
   },
   initialPageParam: 1,
   getNextPageParam: (lastPage, allPages) => {

@@ -1,6 +1,6 @@
 "use client";
 
-const parseErrorCode = (error) => {
+export const parseErrorCode = (error) => {
   if (error instanceof Error) {
     switch (error.name) {
       case "InternalServerError":

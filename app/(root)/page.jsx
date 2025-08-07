@@ -98,7 +98,7 @@ export default function Home() {
 
 function NetflixHero() {
   return (
-    <div className="relative aspect-video overflow-hidden">
+    <div className=" relative aspect-video overflow-hidden">
       {/* Skeleton Layer (akan tertutup oleh background image saat loaded) */}
       <div className="absolute inset-0 z-0">
         <Skeleton className="h-full w-full" />
@@ -127,7 +127,7 @@ function NetflixHero() {
         </div>
 
         {/* Skeleton Content Desktop */}
-        <div className="absolute inset-0 z-10 hidden items-center md:flex">
+        <div className=" absolute inset-0 z-10 hidden items-center md:flex">
           <div className="container mx-auto px-4 sm:px-6 md:px-12 lg:px-16">
             <div className="max-w-full sm:max-w-lg md:ml-auto lg:max-w-xl">
               {/* Title Skeleton */}
@@ -160,7 +160,7 @@ function NetflixHero() {
 
       {/* Background Image Layer dengan delay untuk loading effect */}
       <div
-        className="absolute inset-0 z-20"
+        className=" absolute inset-0 z-20"
         style={{
           backgroundImage: "url(/walpaper.webp)",
           backgroundSize: "cover",

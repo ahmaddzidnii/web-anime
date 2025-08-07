@@ -94,16 +94,3 @@ export const fetchSearchAnime = async (query) => {
 
   return data;
 };
-
-/**
- * Retrieves detailed information about an anime by its ID.
- *
- * @param {number} id - The ID of the anime.
- * @return {Promise<Object|null>} A Promise that resolves to the detailed anime information as an object, or null if the anime is not found.
- */
-
-export const getDetailAnimeById = async (id) => {
-  const response = await axiosInstance.get(`/anime/${id}/full`);
-  const data = response.data.data;
-  return data;
-};

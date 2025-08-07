@@ -11,8 +11,14 @@ export const Navbar = () => {
     <header className="max-w-screen sticky top-0 z-50 w-full border-b bg-background px-2  py-3.5  shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:bg-[#1f1f1f] dark:supports-[backdrop-filter]:bg-[#1f1f1f]/60 2xl:px-0">
       <div className="mx-auto flex max-w-[1400px] items-center">
         <Link href="/">
-          <div className="flex items-center">
-            <Image src="/animefy.png" width={100} height={30} alt="logo" />
+          <div className="relative flex h-[30px] w-[100px] items-center">
+            <Image
+              priority={true}
+              src="/animefy.png"
+              alt="logo"
+              fill
+              style={{ objectFit: "contain" }}
+            />
           </div>
         </Link>
         <div className="ml-4 flex flex-1 items-center justify-end gap-x-2 md:ml-0 md:gap-x-5">

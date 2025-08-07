@@ -8,7 +8,10 @@ export const ClerkCustomProvider = ({ children }) => {
   const { theme } = useTheme();
 
   return (
-    <ClerkProvider appearance={{ baseTheme: theme === "dark" ? dark : null }}>
+    <ClerkProvider
+      afterSignOutUrl="/auth/login?redirect_url=/anime"
+      appearance={{ baseTheme: theme === "dark" ? dark : null }}
+    >
       {children}
     </ClerkProvider>
   );

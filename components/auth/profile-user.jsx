@@ -13,11 +13,17 @@ import { AiOutlineLogin } from "react-icons/ai";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FaList } from "react-icons/fa6";
 import { useRouter } from "@bprogress/next";
+import { useIsClient } from "usehooks-ts";
 
 export const ProfileUser = () => {
   const pathname = usePathname();
   const { isSignedIn } = useSession();
   const router = useRouter();
+  const isClient = useIsClient();
+
+  if (!isClient) {
+    return <Skeleton className="size-[1.5rem]  rounded-full" />;
+  }
 
   return (
     <>
@@ -27,7 +33,6 @@ export const ProfileUser = () => {
       <ClerkLoaded>
         {isSignedIn ? (
           <UserButton
-            afterSignOutUrl="/auth/login?redirect_url=/anime"
             appearance={{
               elements: {
                 userButtonAvatarBox: "h-[1.5rem] w-[1.5rem] md:w-7 md:h-7",

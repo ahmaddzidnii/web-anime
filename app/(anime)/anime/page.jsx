@@ -17,7 +17,6 @@ const AnimePage = () => {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <AnimeExplore />
       </HydrationBoundary>
-      <AnimeExplore />
     </div>
   );
 };

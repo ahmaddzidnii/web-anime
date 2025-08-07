@@ -21,6 +21,34 @@ input[type="number"] {
   padding-left: 1rem;
 }
 
+.grid-anime-custom {
+  @apply grid-cols-2;
+}
+
+@media (min-width: 600px) {
+  .grid-anime-custom {
+    @apply grid-cols-3;
+  }
+}
+
+@media (min-width: 700px) {
+  .grid-anime-custom {
+    @apply grid-cols-4;
+  }
+}
+
+@media (min-width: 1006px) {
+  .grid-anime-custom {
+    @apply grid-cols-5;
+  }
+}
+
+@media (min-width: 1243px) {
+  .grid-anime-custom {
+    @apply grid-cols-6;
+  }
+}
+
 @media (min-width: 1400px) {
   .container-custom {
     max-width: 1400px;

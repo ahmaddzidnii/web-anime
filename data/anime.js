@@ -12,3 +12,22 @@ export const getPopularAnimeForChildren = cache(async ({ limit = 10 }) => {
   );
   return response.data.data;
 });
+
+export const getAnimeById = cache(async (id) => {
+  const response = await axiosInstance.get(`/anime/${id}/full`);
+  const data = response.data.data;
+  return data;
+});
+
+export const getExploreAnime = cache(async (page) => {
+  const response = await axiosInstance.get("/top/anime", {
+    params: {
+      page,
+      limit: 24,
+      sfw: true,
+      filter: "bypopularity",
+    },
+  });
+
+  return response.data;
+});
